@@ -30,7 +30,7 @@ class OnboardingSteps
     {
         return collect($this->getStepsArray($model))
             ->map(fn (OnboardingStep $step) => $step->initiate($model))
-            ->filter(fn (OnboardingStep $step) => $step->notExcluded());
+            ->filter(fn (OnboardingStep $step) => !$step->notIncluded());
     }
 
     private function getStepsArray(Onboardable $model): array
