@@ -29,7 +29,7 @@ class OnboardingManager
     {
         return $this->steps
             ->filter(fn (OnboardingStep $step) => $step->incomplete())
-            ->filter(fn (OnboardingStep $step) => $step->notExcluded())
+            ->filter(fn (OnboardingStep $step) => !$step->notIncluded())
             ->isEmpty();
     }
 
@@ -44,6 +44,6 @@ class OnboardingManager
             ->filter(fn (OnboardingStep $step) => $step->complete())
             ->count();
 
-        return $totalCompleteSteps / $this->steps->count() * 100;
+        return $this->steps->count() > 0 ? $totalCompleteSteps / $this->steps->count() * 100 : 0;
     }
 }
