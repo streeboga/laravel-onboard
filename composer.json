@@ -1,5 +1,5 @@
 {
-    "name": "spatie/laravel-onboard",
+    "name": "streeboga/laravel-onboard",
     "description": "A Laravel package to help track user onboarding steps",
     "keywords": [
         "spatie",
