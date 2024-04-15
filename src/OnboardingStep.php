@@ -14,7 +14,7 @@ class OnboardingStep implements Arrayable
     protected $callableAttributes;
 
     /** @var callable|null */
-    protected $excludeIf;
+    protected $includeIf;
 
     /** @var callable|null */
     protected $completeIf;
@@ -40,9 +40,9 @@ class OnboardingStep implements Arrayable
         return $this;
     }
 
-    public function excludeIf(callable $callback): self
+    public function includeIf(callable $callback): self
     {
-        $this->excludeIf = $callback;
+        $this->includeIf = $callback;
 
         return $this;
     }
@@ -79,18 +79,18 @@ class OnboardingStep implements Arrayable
         return $this;
     }
 
-    public function excluded(): bool
+    public function included(): bool
     {
-        if ($this->excludeIf && $this->model) {
-            return once(fn () => app()->call($this->excludeIf, ['model' => $this->model]));
+        if ($this->includeIf && $this->model) {
+            return once(fn () => app()->call($this->includeIf, ['model' => $this->model]));
         }
 
         return false;
     }
 
-    public function notExcluded(): bool
+    public function notIncluded(): bool
     {
-        return ! $this->excluded();
+        return ! $this->included();
     }
 
     public function complete(): bool
@@ -144,7 +144,7 @@ class OnboardingStep implements Arrayable
     {
         return array_merge($this->attributes, [
             'complete' => $this->complete(),
-            'excluded' => $this->excluded(),
+            'included' => $this->included(),
         ]);
     }
 }
